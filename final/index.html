@@ -36,7 +36,7 @@
   .ot-scroll{left:50%;bottom:24px;display:flex;flex-direction:column;align-items:center;gap:9px;transform:translateX(-50%);font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75)}
   .ot-scroll::after{content:"";width:1px;height:34px;background:linear-gradient(#2997ff,transparent);animation:otScroll 1.5s ease-in-out infinite}
   @keyframes otScroll{0%,100%{transform:scaleY(.35);transform-origin:top;opacity:.35}50%{transform:scaleY(1);opacity:1}}
-  @media(max-width:700px){#ot-intro{height:190vh}.ot-wordline{font-size:22vw}.ot-card-label,.ot-place{display:none}.ot-brand{font-size:28px}}
+  @media(max-width:700px){#ot-intro{height:190vh}.ot-wordline{width:calc(100vw - 32px);font-size:clamp(28px,7.6vw,38px);line-height:.92;letter-spacing:-.04em}.ot-card img{object-position:52% center}.ot-card-label,.ot-place{display:none}.ot-brand{font-size:28px}}
   @media(prefers-reduced-motion:reduce){.ot-scroll::after{animation:none}}
 
   .service-showcase { perspective: 1100px; }
