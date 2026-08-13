@@ -1288,15 +1288,44 @@ function FaqSection() {
 
 function ContactSection({ cart, summary }) {
   const [formMessage, setFormMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
+    e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
-    const required = [["prenom", "Prénom"], ["email", "Email"]];
-    const missing = required.filter(([name]) => !String(data.get(name) || "").trim()).map(([, label]) => label);
 
-    if (cart.length === 0) { e.preventDefault(); setFormMessage({ type: "error", text: "Ajoute au moins une prestation dans ta demande avant l'envoi." }); return; }
-    if (missing.length) { e.preventDefault(); setFormMessage({ type: "error", text: `Renseigne les champs obligatoires : ${missing.join(", ")}.` }); }
+    if (cart.length === 0) {
+      setFormMessage({ type: "error", text: "Ajoutez au moins une prestation dans votre demande avant l'envoi." });
+      return;
+    }
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      setFormMessage({ type: "error", text: "Vérifiez les champs obligatoires avant l'envoi." });
+      return;
+    }
+    if (String(data.get("_gotcha") || "").trim()) {
+      setFormMessage({ type: "success", text: "Votre demande a bien été envoyée. Je vous répondrai rapidement." });
+      form.reset();
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFormMessage(null);
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw new Error("Form submission failed");
+      form.reset();
+      setFormMessage({ type: "success", text: "Votre demande a bien été envoyée. Je vous répondrai rapidement." });
+    } catch {
+      setFormMessage({ type: "error", text: "L'envoi a échoué. Réessayez ou contactez-moi directement par téléphone ou par email." });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const inputClass = "mt-2 w-full rounded-xl border border-black/10 bg-surface px-4 py-3.5 font-normal text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-brand-cyan/60";
@@ -1332,12 +1361,15 @@ function ContactSection({ cart, summary }) {
         <Reveal delay={0.1}>
           <form onSubmit={handleSubmit} action="https://formspree.io/f/mjgdjjyv" method="POST" className="grid gap-5">
             <input type="hidden" name="_subject" value="Nouvelle demande OrellanaTech" />
+            <label className="absolute -left-[10000px] h-px w-px overflow-hidden" aria-hidden="true">Ne pas remplir ce champ
+              <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" />
+            </label>
             <div className="grid gap-5 sm:grid-cols-2">
-              <label className={labelClass}>Prénom *<input type="text" name="prenom" autoComplete="given-name" className={inputClass} /></label>
+              <label className={labelClass}>Prénom *<input type="text" name="prenom" autoComplete="given-name" required className={inputClass} /></label>
               <label className={labelClass}>Nom<input type="text" name="nom" autoComplete="family-name" className={inputClass} /></label>
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
-              <label className={labelClass}>Email *<input type="email" name="email" autoComplete="email" className={inputClass} /></label>
+              <label className={labelClass}>Email *<input type="email" name="email" autoComplete="email" required className={inputClass} /></label>
               <label className={labelClass}>Téléphone <span className="text-ink/30">(facultatif)</span><input type="tel" name="telephone" autoComplete="tel" className={inputClass} /></label>
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
@@ -1348,10 +1380,10 @@ function ContactSection({ cart, summary }) {
               <textarea name="message" rows="4" placeholder="Modèle du PC, référence téléphone, contraintes, disponibilités…" className={inputClass}></textarea>
             </label>
             <input type="hidden" name="recapitulatif_panier" value={summary} readOnly />
-            <button type="submit" className="mt-1 rounded-full bg-ink py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5 active:translate-y-0">
-              Envoyer ma demande
+            <button type="submit" disabled={isSubmitting} className="mt-1 rounded-full bg-ink py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-wait disabled:opacity-60">
+              {isSubmitting ? "Envoi en cours…" : "Envoyer ma demande"}
             </button>
-            {formMessage && <p className={`text-sm font-medium ${formMessage.type === "error" ? "text-red-600" : "text-brand-cyan"}`}>{formMessage.text}</p>}
+            {formMessage && <p role="status" aria-live="polite" className={`rounded-xl border px-4 py-3 text-sm font-medium ${formMessage.type === "error" ? "border-red-200 bg-red-50 text-red-700" : "border-blue-200 bg-blue-50 text-brand-cyan"}`}>{formMessage.text}</p>}
           </form>
         </Reveal>
       </div>
