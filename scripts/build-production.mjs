@@ -97,7 +97,7 @@ await writeFile(
   [
     "Contact: mailto:orellanatech37@gmail.com",
     "Preferred-Languages: fr, en",
-    "Canonical: https://orellanatech.monespaceprof.com/.well-known/security.txt",
+    "Canonical: https://orellanatech.fr/.well-known/security.txt",
     "Expires: 2027-07-23T23:59:59Z",
     "",
   ].join("\n"),
@@ -113,6 +113,8 @@ const minifiedCss = await transform(serviceCss, {
 await writeFile(join(outputRoot, "style.css"), minifiedCss.code, "utf8");
 
 await copy("services");
+await cp(join(projectRoot, "public", "robots.txt"), join(outputRoot, "robots.txt"));
+await cp(join(projectRoot, "public", "sitemap.xml"), join(outputRoot, "sitemap.xml"));
 
 for (const asset of assets) {
   if (asset === "service-detail.js") {

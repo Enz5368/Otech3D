@@ -3,7 +3,7 @@
 Le site métier historique OrellanaTech est conservé en HTML, CSS et JavaScript,
 avec une scène React/Three.js fixe pilotée par le scroll en arrière-plan.
 
-Adresse de production : `https://orellanatech.monespaceprof.com`
+Adresse de production : `https://orellanatech.fr`
 
 ## Commandes locales
 
