@@ -1,6 +1,6 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
-import { transform } from "esbuild";
+import { build, transform } from "esbuild";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const sourceRoot = join(projectRoot, "final");
@@ -65,12 +65,19 @@ if (!jsxMatch) {
   throw new Error("Le module React principal est introuvable dans final/index.html.");
 }
 
-const compiled = await transform(jsxMatch[1], {
-  loader: "jsx",
+const compiled = await build({
+  absWorkingDir: projectRoot,
+  stdin: {
+    contents: jsxMatch[1],
+    loader: "jsx",
+    resolveDir: projectRoot,
+  },
+  bundle: true,
   target: "es2022",
-  format: "esm",
+  format: "iife",
   minify: true,
   legalComments: "none",
+  write: false,
 });
 
 html = html
@@ -86,7 +93,7 @@ html = html
     '<script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>',
     "",
   )
-  .replace(jsxPattern, `<script type="module">${compiled.code}</script>`)
+  .replace(jsxPattern, () => `<script>${compiled.outputFiles[0].text}</script>`)
   .replace(/<!--[\s\S]*?-->/g, "")
   .replace(/\n\s*\n/g, "\n");
 
