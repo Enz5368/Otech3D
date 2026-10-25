@@ -8,6 +8,20 @@
 <link rel="canonical" href="https://orellanatech.fr/">
 <meta property="og:url" content="https://orellanatech.fr/">
 <meta property="og:site_name" content="OrellanaTech">
+<meta property="og:title" content="OrellanaTech | Assistance informatique et création web à Grenoble">
+<meta property="og:description" content="Dépannage, installations, sites web et solutions numériques sur mesure à Grenoble. Demandez une estimation gratuite.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "OrellanaTech",
+  "url": "https://orellanatech.fr/",
+  "email": "orellanatech37@gmail.com",
+  "telephone": "+33759727856",
+  "areaServed": { "@type": "City", "name": "Grenoble" },
+  "description": "Assistance informatique, installations, création de sites web et solutions numériques sur mesure à Grenoble."
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -387,6 +401,21 @@ const FEATURES = [
   "Devis gratuit avant toute intervention", "Prix clairs et adaptés au besoin",
   "Explications simples, sans jargon", "Intervention autour de Grenoble",
   "Prestations possibles à distance selon le besoin", "Accompagnement après la prestation",
+];
+
+const REALISATIONS = [
+  {
+    title: "Site vitrine événementiel — MaxSono",
+    text: "Une vitrine conçue pour présenter les prestations et guider les demandes de réservation.",
+    href: "https://maxsono.vercel.app/",
+    image: "assets/service-maxsono-hd.png"
+  },
+  {
+    title: "Site professionnel — Cabinet Avocat Meite Bintou",
+    text: "Une présentation sobre de l'activité, des informations utiles et des moyens de contact.",
+    href: "https://avocat-meite-bintou.vercel.app/",
+    image: "assets/service-lawyer-hd.png"
+  }
 ];
 
 const FAQS = [
@@ -872,6 +901,32 @@ function Hero({ onVideoReady }) {
   );
 }
 
+/* ============================== Conversion hero ============================== */
+
+function ConversionHero() {
+  return (
+    <section className="relative overflow-hidden bg-[#07141d] py-14 text-white sm:py-20">
+      <div aria-hidden="true" className="absolute -right-28 -top-24 h-72 w-72 rounded-full bg-brand-cyan/25 blur-3xl" />
+      <div className="relative mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+        <div>
+          <p className="text-sm font-semibold text-[#8dc5ff]">Grenoble et alentours · particuliers, indépendants et petites entreprises</p>
+          <h1 className="mt-4 max-w-3xl text-4xl font-extrabold tracking-tight sm:text-6xl">Une aide informatique claire, et des outils numériques qui vous font avancer.</h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-white/70">Dépannage et installation informatique, création de sites web, automatisation et sauvegarde : OrellanaTech vous aide à choisir une solution adaptée, sans jargon ni paiement en ligne.</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToId("contact"); }} className="rounded-full bg-brand-cyan px-6 py-3.5 text-center font-bold text-white shadow-lg shadow-brand-cyan/25 transition hover:bg-[#0071e3]">Demander un devis gratuit</a>
+            <a href="#services" onClick={(e) => { e.preventDefault(); scrollToId("services"); }} className="rounded-full border border-white/25 px-6 py-3.5 text-center font-bold text-white transition hover:bg-white/10">Découvrir les services</a>
+          </div>
+        </div>
+        <aside className="grid gap-3 border-l border-white/15 pl-5 text-sm text-white/80 sm:grid-cols-3 lg:grid-cols-1">
+          <p><strong className="block text-white">Estimation avant intervention</strong>Le prix et le périmètre sont clarifiés selon votre besoin.</p>
+          <p><strong className="block text-white">Intervention locale ou à distance</strong>Les prestations physiques sont proposées sur Grenoble et alentours.</p>
+          <p><strong className="block text-white">Contact direct</strong>Téléphone, email ou formulaire court : le configurateur reste facultatif.</p>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
 /* ============================== Services ============================== */
 
 const SERVICE_IMAGES = [
@@ -965,6 +1020,35 @@ function TrustSection() {
                 </span>
                 <h3 className="font-semibold text-ink">{f}</h3>
               </TiltCard>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================== Réalisations ============================== */
+
+function PortfolioSection() {
+  return (
+    <section id="realisations" className="bg-[#eef5fb] py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-4">
+        <Reveal className="max-w-2xl">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Réalisations à découvrir</h2>
+          <p className="mt-3 text-ink/65">Deux projets web accessibles en ligne. Chaque projet répond à un besoin différent : rendre une activité lisible, présenter l’essentiel et faciliter la prise de contact.</p>
+        </Reveal>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {REALISATIONS.map((project, index) => (
+            <Reveal key={project.title} delay={index * 0.08}>
+              <a href={project.href} target="_blank" rel="noopener noreferrer" className="group block overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                <img src={project.image} alt="" loading="lazy" className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-ink">{project.title}</h3>
+                  <p className="mt-2 text-ink/65">{project.text}</p>
+                  <span className="mt-4 inline-block font-semibold text-brand-cyan">Consulter le projet</span>
+                </div>
+              </a>
             </Reveal>
           ))}
         </div>
@@ -1298,17 +1382,13 @@ function ContactSection({ cart, summary }) {
     const form = e.target;
     const data = new FormData(form);
 
-    if (cart.length === 0) {
-      setFormMessage({ type: "error", text: "Ajoutez au moins une prestation dans votre demande avant l'envoi." });
-      return;
-    }
     if (!form.checkValidity()) {
       form.reportValidity();
       setFormMessage({ type: "error", text: "Vérifiez les champs obligatoires avant l'envoi." });
       return;
     }
     if (String(data.get("_gotcha") || "").trim()) {
-      setFormMessage({ type: "success", text: "Votre demande a bien été envoyée. Je vous répondrai rapidement." });
+      setFormMessage({ type: "success", text: "Votre demande a été prise en compte." });
       form.reset();
       return;
     }
@@ -1323,7 +1403,7 @@ function ContactSection({ cart, summary }) {
       });
       if (!response.ok) throw new Error("Form submission failed");
       form.reset();
-      setFormMessage({ type: "success", text: "Votre demande a bien été envoyée. Je vous répondrai rapidement." });
+      setFormMessage({ type: "success", text: "Votre demande a été transmise. Je vous répondrai dès que possible." });
     } catch {
       setFormMessage({ type: "error", text: "L'envoi a échoué. Réessayez ou contactez-moi directement par téléphone ou par email." });
     } finally {
@@ -1339,17 +1419,17 @@ function ContactSection({ cart, summary }) {
       <div className="mx-auto grid max-w-5xl gap-16 px-6 md:grid-cols-[0.85fr_1.15fr]">
         <Reveal>
           <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">Parlons de votre projet</h2>
-          <p className="mt-4 text-lg text-ink/50">Une panne, un site web, un logiciel sur mesure ou une installation à préparer ? Envoyez votre demande, je réponds avec une estimation claire.</p>
+          <p className="mt-4 text-lg text-ink/50">Une panne, un site web, un logiciel sur mesure ou une installation à préparer ? Une demande simple suffit. Le configurateur est utile seulement si vous souhaitez détailler plusieurs prestations.</p>
 
           <div className="mt-8 flex items-center gap-4 rounded-2xl bg-surface px-5 py-4">
             <CartBasket count={cart.length} size={68} />
             <div className="min-w-0">
               <p className="font-medium text-ink">
-                {cart.length === 0 ? "Panier vide" : `${cart.length} prestation${cart.length > 1 ? "s" : ""} jointe${cart.length > 1 ? "s" : ""}`}
+                {cart.length === 0 ? "Demande simple" : `${cart.length} prestation${cart.length > 1 ? "s" : ""} jointe${cart.length > 1 ? "s" : ""}`}
               </p>
               <p className="mt-0.5 text-sm text-ink/45">
                 {cart.length === 0
-                  ? <a href="#configurateur" onClick={(e) => { e.preventDefault(); scrollToId("configurateur"); }} className="font-medium text-brand-cyan">Composer ma demande →</a>
+                  ? <a href="#configurateur" onClick={(e) => { e.preventDefault(); scrollToId("configurateur"); }} className="font-medium text-brand-cyan">Utiliser le configurateur (facultatif)</a>
                   : "Le récapitulatif part avec votre message."}
               </p>
             </div>
@@ -1375,12 +1455,23 @@ function ContactSection({ cart, summary }) {
               <label className={labelClass}>Email *<input type="email" name="email" autoComplete="email" required className={inputClass} /></label>
               <label className={labelClass}>Téléphone <span className="text-ink/30">(facultatif)</span><input type="tel" name="telephone" autoComplete="tel" className={inputClass} /></label>
             </div>
+            <label className={labelClass}>Service recherché *
+              <select name="service" required defaultValue="" className={inputClass}>
+                <option value="" disabled>Choisir un service</option>
+                <option>Je ne sais pas encore / besoin d’un conseil</option>
+                <option>Dépannage ou optimisation informatique</option>
+                <option>Installation, setup, réseau ou sauvegarde</option>
+                <option>Création ou maintenance de site web</option>
+                <option>Automatisation ou logiciel sur mesure</option>
+                <option>Autre demande</option>
+              </select>
+            </label>
             <div className="grid gap-5 sm:grid-cols-2">
               <label className={labelClass}>Ville <span className="text-ink/30">(facultatif)</span><input type="text" name="ville" autoComplete="address-level2" className={inputClass} /></label>
               <label className={labelClass}>Créneau souhaité<input type="text" name="creneau" placeholder="Ex : soir, samedi, semaine" className={inputClass} /></label>
             </div>
-            <label className={labelClass}>Message complémentaire
-              <textarea name="message" rows="4" placeholder="Modèle du PC, référence téléphone, contraintes, disponibilités…" className={inputClass}></textarea>
+            <label className={labelClass}>Décrivez votre besoin *
+              <textarea name="message" rows="4" required placeholder="Expliquez en quelques mots ce qui ne fonctionne pas ou ce que vous souhaitez réaliser…" className={inputClass}></textarea>
             </label>
             <input type="hidden" name="recapitulatif_panier" value={summary} readOnly />
             <button type="submit" disabled={isSubmitting} className="mt-1 rounded-full bg-ink py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-wait disabled:opacity-60">
@@ -1453,8 +1544,10 @@ function App() {
     <>
       <Header />
       <main>
+        <ConversionHero />
         <ServicesSection />
         <TrustSection />
+        <PortfolioSection />
         <ConfiguratorSection cartApi={cartApi} />
         <AboutSection />
         <FaqSection />
