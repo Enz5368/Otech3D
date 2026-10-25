@@ -59,6 +59,14 @@
   .ot-direct a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:999px;color:#fff;background:#0071e3;font-size:13px;font-weight:800;text-decoration:none;transition:background .2s ease,transform .2s ease}
   .ot-direct a:hover{background:#2997ff;transform:translateY(-1px)}
   .ot-direct a.ot-direct-secondary{border:1px solid rgba(255,255,255,.35);background:transparent}
+  /* The opening panel must never depend on a scripted reveal to become usable. */
+  #ot-intro[data-static]{height:100vh;min-height:620px;background:#07141d}
+  #ot-intro[data-static] .ot-sticky{position:relative;background:#07141d}
+  #ot-intro[data-static] .ot-card img{opacity:1}
+  #ot-intro[data-static] .ot-fluid-reveal,#ot-intro[data-static] .ot-ribbons,#ot-intro[data-static] .ot-scroll{display:none}
+  #ot-intro[data-static] .ot-head{opacity:1}
+  #ot-intro[data-static] .ot-words{opacity:.72}
+  #ot-intro[data-static] + #root{margin-top:0}
   @keyframes otScroll{0%,100%{transform:scaleY(.35);transform-origin:top;opacity:.35}50%{transform:scaleY(1);opacity:1}}
   @media(max-width:700px){#ot-intro{height:190vh}.ot-wordline{width:calc(100vw - 32px);font-size:clamp(28px,7.6vw,38px);line-height:.92;letter-spacing:-.04em}.ot-card img{object-position:52% center}.ot-card-label,.ot-place{display:none}.ot-brand{font-size:28px}}
   @media(prefers-reduced-motion:reduce){.ot-scroll::after{animation:none}}
@@ -223,7 +231,7 @@
 </script>
 </head>
 <body class="bg-bg font-sans text-ink antialiased selection:bg-brand-amber selection:text-white">
-<section id="ot-intro" aria-label="Introduction OrellanaTech">
+<section id="ot-intro" data-static aria-label="Introduction OrellanaTech">
   <div class="ot-sticky">
     <div class="ot-lines"></div>
     <div class="ot-stage" id="ot-stage">
@@ -1592,6 +1600,11 @@ createRoot(document.getElementById("root")).render(<App />);
     const introHead = intro?.querySelector(".ot-head");
     const ribbons = document.getElementById("ot-ribbons");
     if (!intro || !stage || !card || !image || !title || !ribbons || !fluidCanvas || !sticky) return;
+    if (intro.hasAttribute("data-static")) {
+      image.classList.add("ot-reveal-complete");
+      intro.classList.add("is-revealed");
+      return;
+    }
     const fluidCtx = fluidCanvas.getContext("2d");
     const drawCoverImage = (context, source, width, height) => {
       const sourceRatio = source.naturalWidth / source.naturalHeight;
